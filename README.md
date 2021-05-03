@@ -42,27 +42,27 @@ The most complicated imagery acquisition was the satellite images of each city. 
 
 Much of the initial data visualization and analysis in this project concerned the building and extraction of satellite imagery. 
 - The first stage involved acquiring the census shapefiles, and projecting them on to a common open source map using the folio python library: 
-<img src="https://git/anichampionoftheworld/satellite_image_poverty/assets/DC_folio.png" width="400" height="500">
+<img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/DC_folio.png" width="400" height="500">
 - Once I connected the income data to the shapefiles, I was able to plot the median household income data along with the geometry of the census block groups. Here you can see that the north-western areas of DC are substantially wealthier, and that the southeast quadrant contains some of the poorest areas in the city by far. The average median household income in DC almost hits six figures at $99,994.
-<img src="https://git/anichampionoftheworld/satellite_image_poverty/assets/income_dc.png" width="400" height="500">
+<img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/income_dc.png" width="400" height="500">
 - As a slight aside, for those less familiar with DC, the contrasts in this map looks remarkably similar to the maps portraying residents who had received early doses of the vaccine and new COVID cases (as of February 1st).
-<img src="https://git/anichampionoftheworld/satellite_image_poverty/assets/DC_vaccine.png" width="400" height="400">
-<img src="https://git/anichampionoftheworld/satellite_image_poverty/assets/dc_covid.png" width="900" height="400">
+<img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/DC_vaccine.png" width="400" height="400">
+<img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/dc_covid.png" width="900" height="400">
 - I was also able to plot the income data with the relevent shapefiles for Chicago. The goegraphic shape of poverty is a little different here, with wealth concentrated in the center of the city and povery radiating outward, with higher concentrations of poverty on the south and west sides. The average median household income for Chicago is significantly lower than in DC, at $72,749.
-<img src="https://git/anichampionoftheworld/satellite_image_poverty/assets/income_chi.png" width="400" height="600">
+<img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/income_chi.png" width="400" height="600">
 - The distribution of income in DC versus the distribution of income in Chicago is quite different - Chicago looks fairly normal with a long right tail, whereas DC has very lumpy data - there are some extremely wealthy census block groups as well as a good chunk under the $50k mark. 
-<img src="https://git/anichampionoftheworld/satellite_image_poverty/assets/dist_income_dc.png" width="600" height="400">
-<img src="https://git/anichampionoftheworld/satellite_image_poverty/assets/dist_income_chi.png" width="600" height="400">
+<img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/dist_income_dc.png" width="600" height="400">
+<img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/dist_income_chi.png" width="600" height="400">
 - The goal of this project was to build a binary classifier that identified regions at or below poverty. Initially I just looked at census block groups where the median income was below the federal poverty line. However, this didn't give me much data to work with, and wasn't really representative of poverty in cities where the cost of living is significantly higher. As a result, I ended up calculating multipling the federal poverty level by the increased cost of living in each city over the national average - 23 percent in Chicago's case and 39 percent in DC's. I then "rasterized" these census tracts to form labels for my model, with each pixel labelled a 1 or a 0. 
-<img src="https://git/anichampionoftheworld/satellite_image_poverty/assets/dc_sat_and_income.png" width="400" height="500">
-<img src="https://git/anichampionoftheworld/satellite_image_poverty/assets/chi_sat_and_income.png" width="400" height="600">
+<img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/dc_sat_and_income.png" width="400" height="500">
+<img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/chi_sat_and_income.png" width="400" height="600">
 
 ### Conclusions & Recommendations:
 
 Using a neural network, I was able to build a model that was very slightly better than the baseline for DC. Only about 5.7 percent of DC census block groups are below my somewhat improvised poverty level, giving me a baseline score of 94.3 percent. My model predicted with an accuracy of 95.3 percent. Admittedly this is a very small improvement, but looking at it another way it's actually 1/5 closer to perfect! Additionally, it was able to correctly identify 31 percent of the poverty pixels (a recall score of 0.31). A second model built off of oversampled poverty data, trying to correct for these imbalanced classes, actually did quite a bit worse than the original model.
 
 When this model was used to predict on Chicago satellite imagery, it did better in some areas than others. It correctly predicted the densest poverty on the far south side, but entirely missed the poverty on the west side. It also overpredicted on the north side, which only has a few impoverished census block groups. 
-<img src="https://git/anichampionoftheworld/satellite_image_poverty/assets/predictions_on_chi.png" width="500" height="500">
+<img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/predictions_on_chi.png" width="500" height="500">
 
 Overall, this project was really more of a test case to see if this workflow was feasible. While it did not produce an incredibly accurate model, it was still able to learn some patterns of poverty that could be generalized across cities, although leaving substantial room for improvement. With more computing power one could run a convolutional neural net off of thousands of images of each city, or one could add more identifying features to each pixel - such as whether it represented a road, a building, or a park. 
 
