@@ -42,16 +42,16 @@ The most complicated imagery acquisition was the satellite images of each city. 
 
 Much of the initial data visualization and analysis in this project concerned the building and extraction of satellite imagery. 
 - The first stage involved acquiring the census shapefiles, and projecting them on to a common open source map using the folio python library: 
-<img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/DC_folio.png" width="400" height="500">
+<img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/DC_folio.png" width="500" height="500">
 - Once I connected the income data to the shapefiles, I was able to plot the median household income data along with the geometry of the census block groups. Here you can see that the north-western areas of DC are substantially wealthier, and that the southeast quadrant contains some of the poorest areas in the city by far. The average median household income in DC almost hits six figures at $99,994.
-<img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/income_dc.png" width="400" height="500">
+<img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/income_dc.png" width="500" height="500">
 - As a slight aside, for those less familiar with DC, the contrasts in this map looks remarkably similar to the maps portraying residents who had received early doses of the vaccine and new COVID cases (as of February 1st).
-<img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/DC_vaccine.png" width="400" height="400">
-<img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/dc_covid.png" width="900" height="400">
+<img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/DC_vaccine.png" width="600" height="400">
+<img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/dc_covid.png" width="400" height="400">
 - I was also able to plot the income data with the relevent shapefiles for Chicago. The goegraphic shape of poverty is a little different here, with wealth concentrated in the center of the city and povery radiating outward, with higher concentrations of poverty on the south and west sides. The average median household income for Chicago is significantly lower than in DC, at $72,749.
 <img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/income_chi.png" width="400" height="600">
 - The distribution of income in DC versus the distribution of income in Chicago is quite different - Chicago looks fairly normal with a long right tail, whereas DC has very lumpy data - there are some extremely wealthy census block groups as well as a good chunk under the $50k mark. 
-<img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/dist_income_dc.png" width="600" height="400">
+<img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/dist_income_dc.png" width="500" height="500">
 <img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/dist_income_chi.png" width="600" height="400">
 - The goal of this project was to build a binary classifier that identified regions at or below poverty. Initially I just looked at census block groups where the median income was below the federal poverty line. However, this didn't give me much data to work with, and wasn't really representative of poverty in cities where the cost of living is significantly higher. As a result, I ended up calculating multipling the federal poverty level by the increased cost of living in each city over the national average - 23 percent in Chicago's case and 39 percent in DC's. I then "rasterized" these census tracts to form labels for my model, with each pixel labelled a 1 or a 0. 
 <img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/dc_sat_and_income.png" width="400" height="500">
