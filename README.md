@@ -21,7 +21,7 @@ Can satellite imagery be used to predict poverty in US cities? While fairly gran
 
 In the last ten years, economists have begun using satellite images of Earth at night - commonly called "night lights" - to assess economic activity in different countries. Each pixel in these images stores a number that represents the relative brightness of lights reflected back from Earth. Economists have published many successful papers predicting national wealth over time by using the increase in pixel brightness as a proxy for growing electricty usage and therefore GDP. The key issue with these meausurements, however, is that the images are fairly low resolution - each pixel covers a square kilometer of land, and sub-national assessments have not proven particularly effective. 
 
-Different types of satellite imagery have been used by remote sensing analysts to make agricultural assessments for many years. Satellites that capture certain bands of light can be used to show soil aridity, moisture in the air, types of vegetation growth, and other key indiciators. The type of satellite that this project uses is called Sentinel 2, which was launched in June 2015 by the European Space Agency. It sends back images with information on 23 spectral bands (as opposed to the more limited 3 bands, usually red, green, and blue), with each pixel representing just 10 square meters of land.
+Different types of satellite imagery have been used by remote sensing analysts to make agricultural assessments for many years. Satellites that capture certain bands of light can be used to show soil aridity, moisture in the air, types of vegetation growth, and other key indiciators. The type of satellite that this project uses is called Sentinel 2, which was launched in June 2015 by the European Space Agency. It sends back images with information on 12 spectral bands (as opposed to the more limited 3 bands, usually red, green, and blue), with each pixel representing just 10 square meters of land.
 
 Machine learnists have successfully built models on similar types of data to perform image segmentation to identify buildings, illegal trash dumps, destruction from hurricanes, and many other uses. These projects often involve many thousands of images to train models, and require massive computing power because of the size of raster imagery. This project will be much more scoped in that it will only use a single (composited) image for each city, using a training set of pixels to predict the rest of the pixels in the image. 
 
@@ -36,7 +36,7 @@ The US has fairly comprehensive and laborious data-collection methods for studyi
 Both Chicago and DC have data portals from which I was able to pull shapefiles for each of the census block groups in each city. Shapefiles are somewhat complex geospatial files that are actually five different files that all most be downloaded together. The geopandas library can be used to read in just the .shp file, as long as the other files are also present, and display it in a normal-looking dataframe. The critial piece of information here is the "geometry" column, which stores the latitue/longitude coordinates that form the shape of each observed area segment. Seperately, I also had to use a Chicago boundary shapefile to make sure that I was only looking at Chicago census and satellite data, and not data for all of Cook County.
 
 **Satellite Imagery:**
-The most complicated imagery acquisition was the satellite images of each city. Initially, I attempted to use the Sentinel2 API to capture an image of DC by submitting DC's geometry as a parameter, but I could not get an image that covered the entirety of DC's area. Therefore I turned to Google Earth Engine (https://code.earthengine.google.com/), which is mostly written in Java, to extract better imagery. This tool has the benefit of enabling one to build a composite image of a specific area, and also to mask cloud coverage. I created a composite image each of DC and Chicago by average the value for each pixel across 6 months of imagery data (which comes to about two dozen images). These images were stored tif files, and each stored a pixel value across 23 spectral bands. Each pixel is also associated with a lat/long coordinate to locate it on the earth's surface.
+The most complicated imagery acquisition was the satellite images of each city. Initially, I attempted to use the Sentinel2 API to capture an image of DC by submitting DC's geometry as a parameter, but I could not get an image that covered the entirety of DC's area. Therefore I turned to Google Earth Engine (https://code.earthengine.google.com/), which is mostly written in Java, to extract better imagery. This tool has the benefit of enabling one to build a composite image of a specific area, and also to mask cloud coverage. I created a composite image each of DC and Chicago by average the value for each pixel across 6 months of imagery data (which comes to about 35 images). These images were stored tif files, and each stored a pixel value across 12 spectral bands. Each pixel is also associated with a lat/long coordinate to locate it on the earth's surface.
 
 ### Data Visualization & Analysis:
 
@@ -44,8 +44,8 @@ Much of the initial data visualization and analysis in this project concerned th
 - The first stage involved acquiring the census shapefiles, and projecting them on to a common open source map using the folio python library: 
 <img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/DC_folio.png" width="600" height="400">
 - Once I connected the income data to the shapefiles, I was able to plot the median household income data along with the geometry of the census block groups. Here you can see that the north-western areas of DC are substantially wealthier, and that the southeast quadrant contains some of the poorest areas in the city by far. The average median household income in DC almost hits six figures at $99,994.
-<img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/income_dc.png" width="600" height="400">
-- As a slight aside, for those less familiar with DC, the contrasts in this map looks remarkably similar to the maps portraying residents who had received early doses of the vaccine and new COVID cases (as of February 1st).
+<img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/income_dc.png" width="500" height="400">
+- As a slight aside, for those less familiar with DC, the contrasts in this map looks remarkably similar to the maps portraying residents who had received early doses of the vaccine and new COVID cases (as of February 1st). People living in wealthier areas in DC were decidedly more likely to receive the vaccine, and much less likely to get sick during the worst of the pandemic this winter.
 <img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/DC_vaccine.png" width="800" height="400">
 <img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/dc_covid.png" width="600" height="400">
 - I was also able to plot the income data with the relevent shapefiles for Chicago. The goegraphic shape of poverty is a little different here, with wealth concentrated in the center of the city and povery radiating outward, with higher concentrations of poverty on the south and west sides. The average median household income for Chicago is significantly lower than in DC, at $72,749.
@@ -64,8 +64,28 @@ Using a neural network, I was able to build a model that was very slightly bette
 When this model was used to predict on Chicago satellite imagery, it did better in some areas than others. It correctly predicted the densest poverty on the far south side, but entirely missed the poverty on the west side. It also overpredicted on the north side, which only has a few impoverished census block groups. 
 <img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/predictions_on_chi.png" width="500" height="500">
 
+Additionally, I also tested two similar models (one with an imbalanced classes correction and one without) going the reverse direction - predicting DC poverty using Chicago data. Both of these models did quite a bit worse than the DC-trained model, which was surprising because Chicago actually had more data to train on. I suspect that the model was thrown off because one of the impoverished DC census block groups actually contains a large chunk of the river, and that affected the analysis. Below are the predictions from this Chicago:
+<img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/predictions_on_dc.png" width="500" height="500">
+
 Overall, this project was really more of a test case to see if this workflow was feasible. While it did not produce an incredibly accurate model, it was still able to learn some patterns of poverty that could be generalized across cities, although leaving substantial room for improvement. With more computing power one could run a convolutional neural net off of thousands of images of each city, or one could add more identifying features to each pixel - such as whether it represented a road, a building, or a park. 
 
 
+### Sources:
 
+https://towardsdatascience.com/using-satellites-to-map-economic-opportunity-in-new-york-city-3059aece5404
 
+https://towardsdatascience.com/neural-network-for-satellite-data-classification-using-tensorflow-in-python-a13bcf38f3e1
+
+https://geohackweek.github.io/raster/04-workingwithrasters/
+
+https://medium.com/land-use-land-cover-classification-using-google/land-use-land-cover-classification-using-google-earth-engine-random-forest-algorithm-landsat-and-28b610f555de
+
+https://towardsdatascience.com/land-cover-classification-of-satellite-imagery-using-convolutional-neural-networks-91b5bb7fe808
+
+https://towardsdatascience.com/satellite-imagery-access-and-analysis-in-python-jupyter-notebooks-387971ece84b
+
+https://code.earthengine.google.com/
+
+https://data.cityofchicago.org/
+
+https://opendata.dc.gov/
