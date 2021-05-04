@@ -1,6 +1,7 @@
+
+# Capstone - Predicting Poverty From Satellite Imagery
 <img 
 src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/satellite.png" width="600" height="400">
-# Capstone - Predicting Poverty From Satellite Imagery
 
 ---
 
@@ -44,6 +45,8 @@ The most complicated imagery acquisition was the satellite images of each city. 
 
 *The two satellite images as well as the predictions on Chicago data are two large for github to handle, and therefore will not be uploaded to this repo.*
 
+---
+
 ### Data Visualization & Analysis:
 
 Much of the initial data visualization and analysis in this project concerned the building and extraction of satellite imagery. 
@@ -62,6 +65,8 @@ Much of the initial data visualization and analysis in this project concerned th
 - The goal of this project was to build a binary classifier that identified regions at or below poverty. Initially I just looked at census block groups where the median income was below the federal poverty line. However, this didn't give me much data to work with, and wasn't really representative of poverty in cities where the cost of living is significantly higher. As a result, I ended up calculating multipling the federal poverty level by the increased cost of living in each city over the national average - 23 percent in Chicago's case and 39 percent in DC's. I then "rasterized" these census tracts to form labels for my model, with each pixel labelled a 1 or a 0. 
 <img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/dc_sat_and_income.png" width="400" height="400">
 <img src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/chi_sat_and_income.png" width="400" height="400">
+
+---
 
 ### Conclusions & Recommendations:
 
