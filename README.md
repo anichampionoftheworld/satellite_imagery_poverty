@@ -1,7 +1,7 @@
 
 # Capstone - Predicting Poverty From Satellite Imagery
 <img 
-src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/satellite.png" width="600" height="400">
+src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/satellite.png" width="300" height="200">
 
 ---
 
