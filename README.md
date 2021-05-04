@@ -1,3 +1,4 @@
+src="https://github.com/anichampionoftheworld/satellite_imagery_poverty/blob/main/assets/satellite.png" width="600" height="400">
 # Capstone - Predicting Poverty From Satellite Imagery
 
 ---
@@ -15,6 +16,8 @@
 ### Problem Statement: 
 
 Can satellite imagery be used to predict poverty in US cities? While fairly granular data on poverty in the US already exists, thanks to the US census, it is only reported once every 10 years and cannot produce statistically reliable wealth estimates for areas smaller than several square blocks. For this reason, high-resolution satellite imagery - in particular, the Sentinel satellite, which transmits images in which each pixel represents just 10 square meters of the Earth's surface - could be very helpful in assessing more nuanced and precise delineations of poverty. Additionally, it can be difficult for the US census to find and ask questions of the most impoverished members of our community, because they often don't have permanent addresses at which they can send and recieve mail or census personnel. A well-calibrated model built off satellite data could serve as a useful tool to capture people how they are, as opposed to trying to track them down using more conventional methods that don't match up with how people actually live. Finally, poverty does not look the same everywhere. This project will use one US city's imagery to predict poverty in other city. The accuracy of these predictions will be able to tell us if there are any similarities between different centers of urban poverty, and if continued study would be useful.
+
+To solve this problem we will look at Chicago and DC satellite data, and try to predict poverty within each city. We will also test the DC-trained model on the Chicago data and vice versa.
 
 
 ### Background:
@@ -37,6 +40,8 @@ Both Chicago and DC have data portals from which I was able to pull shapefiles f
 
 **Satellite Imagery:**
 The most complicated imagery acquisition was the satellite images of each city. Initially, I attempted to use the Sentinel2 API to capture an image of DC by submitting DC's geometry as a parameter, but I could not get an image that covered the entirety of DC's area. Therefore I turned to Google Earth Engine (https://code.earthengine.google.com/), which is mostly written in Java, to extract better imagery. This tool has the benefit of enabling one to build a composite image of a specific area, and also to mask cloud coverage. I created a composite image each of DC and Chicago by average the value for each pixel across 6 months of imagery data (which comes to about 35 images). These images were stored tif files, and each stored a pixel value across 12 spectral bands. Each pixel is also associated with a lat/long coordinate to locate it on the earth's surface.
+
+*The two satellite images as well as the predictions on Chicago data are two large for github to handle, and therefore will not be uploaded to this repo.*
 
 ### Data Visualization & Analysis:
 
