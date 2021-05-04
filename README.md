@@ -21,6 +21,7 @@ Can satellite imagery be used to predict poverty in US cities? While fairly gran
 
 To solve this problem we will look at Chicago and DC satellite data, and try to predict poverty within each city. We will also test the DC-trained model on the Chicago data and vice versa.
 
+---
 
 ### Background:
 
@@ -29,6 +30,8 @@ In the last ten years, economists have begun using satellite images of Earth at 
 Different types of satellite imagery have been used by remote sensing analysts to make agricultural assessments for many years. Satellites that capture certain bands of light can be used to show soil aridity, moisture in the air, types of vegetation growth, and other key indiciators. The type of satellite that this project uses is called Sentinel 2, which was launched in June 2015 by the European Space Agency. It sends back images with information on 12 spectral bands (as opposed to the more limited 3 bands, usually red, green, and blue), with each pixel representing just 10 square meters of land.
 
 Machine learnists have successfully built models on similar types of data to perform image segmentation to identify buildings, illegal trash dumps, destruction from hurricanes, and many other uses. These projects often involve many thousands of images to train models, and require massive computing power because of the size of raster imagery. This project will be much more scoped in that it will only use a single (composited) image for each city, using a training set of pixels to predict the rest of the pixels in the image. 
+
+---
 
 ### Datasets:
 
@@ -80,6 +83,7 @@ Additionally, I also tested two similar models (one with an imbalanced classes c
 
 Overall, this project was really more of a test case to see if this workflow was feasible. While it did not produce an incredibly accurate model, it was still able to learn some patterns of poverty that could be generalized across cities, although leaving substantial room for improvement. With more computing power one could run a convolutional neural net off of thousands of images of each city, or one could add more identifying features to each pixel - such as whether it represented a road, a building, or a park. 
 
+---
 
 ### Sources:
 
