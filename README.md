@@ -46,7 +46,7 @@ Both Chicago and DC have data portals from which I was able to pull shapefiles f
 **Satellite Imagery:**
 The most complicated imagery acquisition was the satellite images of each city. Initially, I attempted to use the Sentinel2 API to capture an image of DC by submitting DC's geometry as a parameter, but I could not get an image that covered the entirety of DC's area. Therefore I turned to Google Earth Engine (https://code.earthengine.google.com/), which is mostly written in Java, to extract better imagery. This tool has the benefit of enabling one to build a composite image of a specific area, and also to mask cloud coverage. I created a composite image each of DC and Chicago by average the value for each pixel across 6 months of imagery data (which comes to about 35 images). These images were stored tif files, and each stored a pixel value across 12 spectral bands. Each pixel is also associated with a lat/long coordinate to locate it on the earth's surface.
 
-*The two satellite images as well as the predictions on Chicago data are two large for github to handle, and therefore will not be uploaded to this repo.*
+*The two satellite images as well as the predictions on Chicago data are too large for github to handle, and therefore will not be uploaded to this repository.*
 
 ---
 
